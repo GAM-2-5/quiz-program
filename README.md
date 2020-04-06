@@ -1,3 +1,4 @@
 # quiz-program
 Program za provođenje kvizova
-trenutno - završni dodiri (možda dodam nešto grafički)
+dodan grafički dio
+trenutno - završni dodiri (ovo još uvijek ne radi)
