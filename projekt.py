@@ -1,70 +1,140 @@
 from random import *
-a="A"
-A="A"
-b="B"
-B="B"
-c="C"
-C="C"
-d="D"
-D="D"
-ckrivo=0
-cpitanja=0
-ctocno=0
+from tkinter import *
+from tkinter import StringVar
+
 ulaz=open("quiz.txt","r")
+
 par=ulaz.readlines()
 for i in range (len(par)-1):
     par[i] = par[i].strip("\n")
 
-rjecnik_stalni={}
-for i in range(len(par)):
-    newlist=par[i].split("/")
-    rjecnik_stalni.update({newlist[0]:newlist[1]})
-rjecnik_pitanja=rjecnik_stalni.copy()
+cpar = par[:]
 
-while ckrivo < 3:
-    cpitanja+=1
-    par=rjecnik_pitanja.items()
-    rng=randint(0,len(par)-1)
-    pitanje_odgovori=list(par[rng])
-    pitanje=pitanje_odgovori[0]
+def selector():
+    par1 = cpar[randint(0, len(cpar) - 1)]
+    cpar.remove(par1)
 
-    rjecnik_pitanja.pop(pitanje_odgovori[0])
-    
-    newlist=pitanje_odgovori[1].split(" ")
-    tocno=newlist[0]
-    print(pitanje + "\n")
+    ques_ans = par1.split("/")
+    ques = ques_ans[0]
+    allans = ques_ans[1].split(" ")
+    corans = allans[0]
 
-    rng = randint(0,3)
-    print("A:" + newlist[rng])
-    if newlist[rng] == tocno:
-        odgovor = "A"
-    newlist.remove(newlist[rng])
-    rng = randint(0,2)
-    print("B:" + newlist[rng])
-    if newlist[rng] == tocno:
-        odgovor = "B"
-    rng = randint(0,1)
-    print("C:" + newlist[rng])
-    if newlist[rng] == tocno:
-        odgovor = "C"
-    newlist.remove(newlist[rng])
-    print("D:" + newlist[0] + "\n")
-    if newlist[0] == tocno:
-        odgovor = "D"
+    ans1 = allans[randint(0, len(allans)) - 1]
+    allans.remove(ans1)
+    ans2 = allans[randint(0, len(allans)) - 1]
+    allans.remove(ans2)
+    ans3 = allans[randint(0, len(allans)) - 1]
+    allans.remove(ans3)
+    ans4 = allans[0]
+    allans.remove(ans4)
 
-    mojodgovor=input()
-    if mojodgovor.upper() == odgovor:
-        ctocno+=1
-        if cpitanja == len(rjecnik_stalni):
-            print("\n" + "VICTORY ROYALE!!!" + "\n")
-            print("Osvojio/la si {}/{} bodova".format(ctocno,len(rjecnik_stalni)) + "\n")
-            break
+    q1.insert(END, ques)
+    a1.insert(END, ans1)
+    a2.insert(END, ans2)
+    a3.insert(END, ans3)
+    a4.insert(END, ans4)
+    c2.insert(END, 3-cwr)
+
+def removeall():
+    b1.delete(1, END)
+    b2.delete(1, END)
+    b3.delete(1, END)
+    b4.delete(1, END)
+    c1.delete(1, END)
+    s1.delete(1, END)
+    s2.delete(1, END)
+    s3.delete(1, END)
+
+def a():
+    q1.delete(1.0, END)
+    a1.delete(1.0, END)
+    a2.delete(1.0, END)
+    a3.delete(1.0, END)
+    a4.delete(1.0, END)
+    c2.delete(1.0, END)
+
+    if ans1 == corans:
+
+        if cques == len(par):
+
+            removeall()
+
+            win = "Victory Royale!"
+            w1 = Text(root, bg = "grey20", fg = "RoyalBlue1")
+            w1.insert(END, win)
+            w1.place(relx = 0.3, rely = 0.3)
+
         else:
-            print("\n" + "tocno" + "\n" + "Trenutno imaš {} bodova".format(ctocno) + "\n")
-    elif ckrivo < 2:
-        ckrivo+=1
-        print("\n" + "Krivo!!" + "\n" + "Imaš još {} pokušaja".format(3-ckrivo) + "\n")
+
+            selector()
+
     else:
-        print("\n" + "YOU LOSE NUB!!" + "\n")
-        print("Osvojio/la si {}/{} bodova".format(ctocno,len(rjecnik_stalni)) + "\n")
-        break
+
+        if cwr < 3:
+
+            selector()
+
+        else:
+
+            removeall()
+
+            lose = "YOU LOSE NUB!!!"
+            l1 = Text(root, bg="black", fg="red")
+            l1.insert(END, lose)
+            l1.place()
+
+
+def b():
+    odgovor = "b"
+
+def c():
+    odgovor = "c"
+
+def d():
+    odgovor = "d"
+
+cques = 0
+ccor = 0
+cwr = 0
+
+root = Tk()
+root.geometry("655x250")
+root.configure(bg="grey25")
+
+q1 = Text(root, bg="grey20", fg="RoyalBlue1", height=1, width=40)
+
+a1 = Text(root, bg="grey30", fg="white", height = 1, width=40)
+a2 = Text(root, bg="grey30", fg="white", height = 1, width=40)
+a3 = Text(root, bg="grey30", fg="white", height = 1, width=40)
+a4 = Text(root, bg="grey30", fg="white", height = 1, width=40)
+
+c1 = Text(root, bg="grey30", fg="white", height=1, width=10)
+c2 = Text(root, bg="grey30", fg="white", height=1, width=5)
+
+s1 = Label(root, text = " ", bg="grey25")
+s2 = Label(root, text = " ", bg="grey25")
+
+selector()
+
+b1 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="A", command=a)
+b2 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="B", command=b)
+b3 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="C", command=c)
+b4 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="D", command=d)
+
+c1.insert(END, "Å½ivoti:")
+
+s1.grid(row = 1, column = 1)
+s1.grid(row = 6, column = 1)
+q1.grid(row = 1, column = 2)
+b1.grid(row = 2, column = 1)
+b2.grid(row = 3, column = 1)
+b3.grid(row = 4, column = 1)
+b4.grid(row = 5, column = 1)
+a1.grid(row = 2, column = 2)
+a2.grid(row = 3, column = 2)
+a3.grid(row = 4, column = 2)
+a4.grid(row = 5, column = 2)
+c1.grid(row = 7, column = 1)
+c2.grid(row = 7, column = 2)
+
+root.mainloop()
