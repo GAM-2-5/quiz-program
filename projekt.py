@@ -1,6 +1,5 @@
 from random import *
 from tkinter import *
-from tkinter import StringVar
 
 ulaz=open("quiz.txt","r")
 
@@ -8,7 +7,11 @@ par=ulaz.readlines()
 for i in range (len(par)-1):
     par[i] = par[i].strip("\n")
 
-cpar = par[:]
+cpar = par.copy()
+
+cques = 0
+ccor = 0
+cwr = 0
 
 def selector():
     par1 = cpar[randint(0, len(cpar) - 1)]
@@ -17,14 +20,19 @@ def selector():
     ques_ans = par1.split("/")
     ques = ques_ans[0]
     allans = ques_ans[1].split(" ")
+    global corans
     corans = allans[0]
 
+    global ans1
     ans1 = allans[randint(0, len(allans)) - 1]
     allans.remove(ans1)
+    global ans2
     ans2 = allans[randint(0, len(allans)) - 1]
     allans.remove(ans2)
+    global ans3
     ans3 = allans[randint(0, len(allans)) - 1]
     allans.remove(ans3)
+    global ans4
     ans4 = allans[0]
     allans.remove(ans4)
 
@@ -36,16 +44,24 @@ def selector():
     c2.insert(END, 3-cwr)
 
 def removeall():
-    b1.delete(1, END)
-    b2.delete(1, END)
-    b3.delete(1, END)
-    b4.delete(1, END)
-    c1.delete(1, END)
-    s1.delete(1, END)
-    s2.delete(1, END)
-    s3.delete(1, END)
+    q1.destroy()
+    b1.destroy()
+    b2.destroy()
+    b3.destroy()
+    b4.destroy()
+    c1.destroy()
+    c2.destroy()
+    s1.destroy()
+    s2.destroy()
+    a1.destroy()
+    a2.destroy()
+    a3.destroy()
+    a4.destroy()
 
-def a():
+def check(t):
+    global cques
+    cques = cques + 1
+
     q1.delete(1.0, END)
     a1.delete(1.0, END)
     a2.delete(1.0, END)
@@ -53,52 +69,52 @@ def a():
     a4.delete(1.0, END)
     c2.delete(1.0, END)
 
-    if ans1 == corans:
+    if t == corans:
+        global ccor
+        ccor = ccor + 1
 
         if cques == len(par):
-
             removeall()
 
-            win = "Victory Royale!"
-            w1 = Text(root, bg = "grey20", fg = "RoyalBlue1")
+            win = " Victory Royale! "
+            w1 = Text(root, bg = "grey20", fg = "RoyalBlue1", width = 17, height=1)
             w1.insert(END, win)
-            w1.place(relx = 0.3, rely = 0.3)
+            w1.place(x=250, y=100)
 
         else:
-
             selector()
 
     else:
+        global cwr
+        cwr = cwr + 1
 
         if cwr < 3:
-
             selector()
 
         else:
 
             removeall()
 
-            lose = "YOU LOSE NUB!!!"
-            l1 = Text(root, bg="black", fg="red")
+            lose = " YOU LOSE NUB!!! "
+            l1 = Text(root, bg="black", fg="red", width=17 ,height=1)
             l1.insert(END, lose)
-            l1.place()
+            l1.place(x=250, y=100)
 
+def a():
+    check(ans1)
 
 def b():
-    odgovor = "b"
+    check(ans2)
 
 def c():
-    odgovor = "c"
+    check(ans3)
 
 def d():
-    odgovor = "d"
-
-cques = 0
-ccor = 0
-cwr = 0
+    check(ans4)
 
 root = Tk()
 root.geometry("655x250")
+root.title("Quiz Program")
 root.configure(bg="grey25")
 
 q1 = Text(root, bg="grey20", fg="RoyalBlue1", height=1, width=40)
@@ -114,7 +130,8 @@ c2 = Text(root, bg="grey30", fg="white", height=1, width=5)
 s1 = Label(root, text = " ", bg="grey25")
 s2 = Label(root, text = " ", bg="grey25")
 
-selector()
+if cques < len(par):
+    selector()
 
 b1 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="A", command=a)
 b2 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="B", command=b)
