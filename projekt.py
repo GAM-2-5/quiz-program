@@ -1,7 +1,7 @@
 from random import *
 from tkinter import *
 
-ulaz=open("quiz.txt","r")
+ulaz=open("quiz.txt","r") #ovo unosi pitanja
 
 par=ulaz.readlines()
 for i in range (len(par)-1):
@@ -13,13 +13,13 @@ cques = 0
 ccor = 0
 cwr = 0
 
-def selector():
+def selector(): #ovo bira pitanja
     par1 = cpar[randint(0, len(cpar) - 1)]
     cpar.remove(par1)
 
-    ques_ans = par1.split("/")
+    ques_ans = par1.split("$")
     ques = ques_ans[0]
-    allans = ques_ans[1].split(" ")
+    allans = ques_ans[1].split("%")
     global corans
     corans = allans[0]
 
@@ -43,7 +43,7 @@ def selector():
     a4.insert(END, ans4)
     c2.insert(END, 3-cwr)
 
-def removeall():
+def removeall(): #ovo uništava sav život na zemlji
     q1.destroy()
     b1.destroy()
     b2.destroy()
@@ -58,7 +58,7 @@ def removeall():
     a3.destroy()
     a4.destroy()
 
-def check(t):
+def check(t): #ovo provjerava odgovor
     global cques
     cques = cques + 1
 
@@ -112,7 +112,7 @@ def c():
 def d():
     check(ans4)
 
-root = Tk()
+root = Tk() #ovo stavlja stvari na ekran
 root.geometry("655x250")
 root.title("Quiz Program")
 root.configure(bg="grey25")
@@ -130,8 +130,7 @@ c2 = Text(root, bg="grey30", fg="white", height=1, width=5)
 s1 = Label(root, text = " ", bg="grey25")
 s2 = Label(root, text = " ", bg="grey25")
 
-if cques < len(par):
-    selector()
+selector()
 
 b1 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="A", command=a)
 b2 = Button(root, width = 10, height = 1, bg="grey30", fg="white", text="B", command=b)
