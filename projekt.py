@@ -43,7 +43,21 @@ def selector(): #ovo bira pitanja
     a4.insert(END, ans4)
     c2.insert(END, 3-cwr)
 
+    a1.config(state=DISABLED)
+    a2.config(state=DISABLED)
+    a3.config(state=DISABLED)
+    a4.config(state=DISABLED)
+    q1.config(state=DISABLED)
+    c2.config(state=DISABLED)
+
 def removeall(): #ovo uništava sav život na zemlji
+    a1.config(state=NORMAL)
+    a2.config(state=NORMAL)
+    a3.config(state=NORMAL)
+    a4.config(state=NORMAL)
+    q1.config(state=NORMAL)
+    c2.config(state=NORMAL)
+
     q1.destroy()
     b1.destroy()
     b2.destroy()
@@ -61,6 +75,13 @@ def removeall(): #ovo uništava sav život na zemlji
 def check(t): #ovo provjerava odgovor
     global cques
     cques = cques + 1
+
+    a1.config(state=NORMAL)
+    a2.config(state=NORMAL)
+    a3.config(state=NORMAL)
+    a4.config(state=NORMAL)
+    q1.config(state=NORMAL)
+    c2.config(state=NORMAL)
 
     q1.delete(1.0, END)
     a1.delete(1.0, END)
@@ -88,7 +109,15 @@ def check(t): #ovo provjerava odgovor
         global cwr
         cwr = cwr + 1
 
-        if cwr < 3:
+        if cques == len(par) and cwr < 3:
+            removeall()
+
+            win = " Victory Royale! "
+            w1 = Text(root, bg = "grey20", fg = "RoyalBlue1", width = 17, height=1)
+            w1.insert(END, win)
+            w1.place(x=250, y=100)
+
+        elif cwr < 3:
             selector()
 
         else:
@@ -152,5 +181,12 @@ a3.grid(row = 4, column = 2)
 a4.grid(row = 5, column = 2)
 c1.grid(row = 7, column = 1)
 c2.grid(row = 7, column = 2)
+
+a1.config(state=DISABLED)
+a2.config(state=DISABLED)
+a3.config(state=DISABLED)
+a4.config(state=DISABLED)
+q1.config(state=DISABLED)
+c2.config(state=DISABLED)
 
 root.mainloop()
