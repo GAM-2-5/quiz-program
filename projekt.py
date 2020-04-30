@@ -143,7 +143,7 @@ def d():
 
 root = Tk() #ovo stavlja stvari na ekran
 root.geometry("655x250")
-root.title("Quiz Program")
+root.title("Quiz")
 root.configure(bg="grey25")
 
 q1 = Text(root, bg="grey20", fg="RoyalBlue1", height=1, width=40)
